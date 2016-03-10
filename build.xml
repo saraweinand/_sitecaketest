@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SiteCake" default="build" basedir="." description="SiteCake CMS">
+	<property name="version" value="2.2.10"/>
+	<property name="scedit.version" value="2.2.10"/>
+
+	<property name="build.dir" value="./build"/>
+	<property name="package.dir" value="${build.dir}/target"/>
+
+
+	<target name="clean-deps">
+		<if>
+			<available file="./vendor"/>
+			<then>
+				<delete dir="./vendor" failonerror="true" includeemptydirs="true"/>
+			</then>
+		</if>
+		<if>
+			<available file="./composer.lock"/>
+			<then>
+				<delete file="./composer.lock"/>
+			</then>
+		</if>		
+	</target>
+
+	<target name="clean-build">
+		<if>
+			<available file="./build"/>
+			<then>
+				<delete dir="./build" failonerror="true" includeemptydirs="true"/>
+			</then>
+		</if>		
+	</target>
+
+	<target name="clean" depends="clean-deps, clean-build">
+		<echo msg="clean"/>
+	</target>
+
+	<target name="deps">
+		<if>
+			<available file="./composer.lock"/>
+			<then>
+				<exec command="composer update" checkreturn="true" passthru="true"/>
+			</then>
+			<else>
+				<exec command="composer install" checkreturn="true" passthru="true"/>
+			</else>
+		</if>
+	</target>
+
+	<target name="verify">
+		<phplint>
+			<fileset dir="src">
+				<include name="**/*.php"/>
+			</fileset>
+		</phplint>
+	</target>
+
+	<target name="test" depends="verify">
+		<autoloader autoloaderpath="vendor/autoload.php"/>
+		<exec command="vendor/bin/phpunit --test-suffix Test.php --filter Test --process-isolation test" checkreturn="true" passthru="true"/>
+	</target>
+
+	<target name="fetch-scedit">
+		<propertyprompt propertyName="scedit.version" defaultValue="${scedit.version}" promptText="SiteCake Editor (scedit) version" promptCharacter=":"/>
+		<propertyprompt propertyName="scedit.package.path" defaultValue="../scedit2/sitecake-editor-client/target/sitecake-editor-client-${scedit.version}-dist.tar.gz" promptText="Path to the SiteCake Editor package" promptCharacter=":"/>
+		<resolvepath propertyName="scedit.package.path" file="${scedit.package.path}"/>
+		<exec command="basename ${scedit.package.path}" outputProperty="scedit.package.file"/>
+
+		<copy file="${scedit.package.path}" todir="${package.dir}/sitecake/${version}/client"/>
+		<echo msg="Extracting scedit package ${scedit.package.file} to ${package.dir}/sitecake/${version}/client"/>
+		<exec command="tar xzf ${scedit.package.file}" dir="${package.dir}/sitecake/${version}/client"
+			checkreturn="true" passthru="true"/>
+		<delete file="${package.dir}/sitecake/${version}/client/${scedit.package.file}"/>
+
+	</target>
+
+	<target name="package" depends="fetch-scedit">
+		<mkdir dir="${package.dir}/sitecake/${version}/client"/>
+		<mkdir dir="${package.dir}/sitecake/${version}/server"/>
+
+		<copy file="./src/sitecake.php" todir="${package.dir}">
+			<filterchain>
+				<expandproperties/>
+			</filterchain>			
+		</copy>
+		
+		<copy todir="${package.dir}/sitecake/${version}/server">
+			<fileset dir="./src">
+				<include name="**/*.php"/>
+				<exclude name="resources/*"/>
+				<exclude name="sitecake.php"/>
+			</fileset>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>			
+		</copy>
+		
+		<copy todir="${package.dir}/sitecake">
+			<fileset dir="./src/resources">
+				<include name="*.*"/>
+				<exclude name="config.php"/>
+			</fileset>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>			
+		</copy>
+		<copy file="./src/resources/config.php" todir="${package.dir}/sitecake/${version}/server"/>
+
+		<copy file="composer.json" todir="${package.dir}/sitecake/${version}/server"/>
+		<exec command="composer --prefer-dist --no-dev install"
+			dir="${package.dir}/sitecake/${version}/server" 
+			checkreturn="true" passthru="true"/>
+		<delete file="${package.dir}/sitecake/${version}/server/composer.lock"/>
+		<delete file="${package.dir}/sitecake/${version}/server/composer.json"/>
+
+		<!-- trim down vendor dir -->
+		<delete includeemptydirs="true">
+			<fileset dir="${package.dir}/sitecake/${version}/server/vendor">
+				<include name="*/"/>
+				<exclude name="composer/"/>
+				<exclude name="electrolinux/phpquery/phpQuery/"/>
+				<exclude name="league/flysystem/src/"/>
+				<exclude name="plczip/plczip/"/>
+				<exclude name="pimple/pimple/lib/"/>
+				<exclude name="psr/log/Psr/Log/"/>
+				<exclude name="silex/silex/src/Silex/"/>
+				<exclude name="smottt/wideimage/lib/WideImage/"/>
+				<exclude name="jdesrosiers/silex-cors-provider/"/>
+				<exclude name="symfony/"/>
+				<exclude name="autoload.php"/>
+			</fileset>
+			<fileset dir="${package.dir}/sitecake/${version}/server/vendor">
+				<include name="**/Tests/"/>
+				<include name="**/Test/"/>
+				<include name="**/tests/"/>
+
+			</fileset>
+		</delete>
+
+		<zip destfile="${build.dir}/sitecake-${version}.zip"
+				basedir="${package.dir}">
+			<fileset dir="${package.dir}">
+				<include name="**/**" />
+			</fileset>
+		</zip>
+
+	</target>
+		
+	<target name="build" depends="deps,test,package">
+		<echo msg="SiteCake ${version}"/>
+	</target>
+</project>

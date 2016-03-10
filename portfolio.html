@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Portfolio</title>
+<meta name="description" content="" />
+<meta name="author" content="" />
+<meta name="viewport" content="width=device-width" />
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/sitecake.css" />
+<link rel="stylesheet" href="css/pt-serif/type.css" />
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+
+<!--FlexSlider-->
+<link rel="stylesheet" href="css/flexslider.css" type="text/css" />
+<script src="js/jquery.flexslider.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+$(window).load(function() {
+	$('.sc-slider .flexslider').flexslider();
+	$(document).bind('scSliderInit', function(e) {
+		var slider = e.originalEvent.detail.target;
+		var markup = e.originalEvent.detail.markup;
+		$(slider).html(markup);
+		$(slider).find('.flexslider').flexslider();   	 
+	});
+
+});
+</script></head>
+
+<body>
+<div id="wrap">
+	<div id="logo" class="sc-repeater-logo"> <a href="/"><img src="img/logo.gif" width="297" height="163" alt=""/></a> </div>
+	<div id="main-nav">
+		<ul class="nav clearfix sc-nav">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="about-us.html">About Us</a></li>
+			<li><a href="portfolio.html">Portfolio</a></li>
+			<li><a href="contact.html">Contact</a></li>
+		</ul>
+		<div class="tagline sc-repeater-tagline">
+			<p>Minimal theme for arts &amp; crafts types. iPad ready.</p>
+		</div>
+	</div>
+	<div id="social" class="sc-repeater-social"> <a href="#" class="facebook27"><img src="img/icon-facebook-27.png" width="27" height="27" alt="" /></a> <a href="#" class="twitter27"><img src="img/icon-twitter-27.png" width="27" height="27" alt="" /></a></div>
+	<div id="content">
+		<div class="row no-hr">
+			<div class="portfolio span6 sc-content">
+				<h2>Packaging</h2>
+				<p>Takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+				
+				<div class="sc-slider">
+					<div class="flexslider">
+						<ul class="slides">
+							<li><img src="img/portfolio11.jpg" width="705" height="403" alt="" /></li>
+							<li><img src="img/portfolio12.jpg" width="705" height="403" alt="" /></li>
+							<li><img src="img/portfolio13.jpg" width="705" height="403" alt="" /></li>
+						</ul>
+					</div>
+				</div>
+				<p class="caption dotted">click to slide</p>
+				<p class="divider"></p>
+				<h2>Branding</h2>
+				<p>Takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+				<div class="sc-slider">
+					<div class="flexslider">
+						<ul class="slides">
+							<li><img src="img/portfolio21.jpg" width="705" height="403" alt="" /></li>
+							<li><img src="img/portfolio22.jpg" width="705" height="397" alt="" /></li>
+							<li><img src="img/portfolio23.jpg" width="705" height="403" alt="" /></li>
+						</ul>
+					</div>
+				</div>
+				<p class="caption dotted">click to slide</p>
+				<p class="divider"></p>
+				<h2>Illustration</h2>
+				<p>Takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+				<div class="sc-slider">
+					<div class="flexslider">
+						<ul class="slides">
+							<li><img src="img/portfolio31.jpg" width="705" height="403" alt="" /></li>
+							<li><img src="img/portfolio32.jpg" width="705" height="403" alt="" /></li>
+							<li><img src="img/portfolio33.jpg" width="705" height="403" alt="" /></li>
+						</ul>
+					</div>
+				</div>
+				<p class="caption dotted">click to slide</p>
+				<p class="divider"></p>
+			</div>
+		</div>
+	</div>
+	<div id="footer" class="sc-repeater-footer">
+		<p><strong>&copy; 2012 Portfolio</strong>&nbsp;&nbsp;/&nbsp;<a href=""> Terms of Use</a>&nbsp;&middot;&nbsp;<a href="">Privacy Policy</a>&nbsp;&middot;&nbsp;<a href="">Contact</a>&nbsp;&nbsp;/&nbsp;</p>
+		
+	</div>
+	<!--footer--> 
+	
+</div>
+<!--wrap-->
+
+</body>
+</html>

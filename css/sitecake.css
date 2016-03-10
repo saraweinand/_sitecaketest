@@ -1,0 +1,42 @@
+
+/* This stylesheet contains user styles that can be picked from SiteCake toolbar by the user */
+
+.sc-content > ul li {
+	background: url(../img/bullet1.png) no-repeat 10px 10px;
+	font: 16px/1.6em 'PTSerifRegular', Georgia, Times, serif;
+	padding-left:30px;
+}
+
+.sc-content > ul li a {
+	border-bottom: dotted 2px #bbb;
+	color:#777;
+}
+
+.sc-content > ul li a:hover {
+	background-color:#ffed00;
+	border-bottom: dotted 2px #bbb;
+	color:#000000;
+}
+
+.sc-content > ul.dark-dot li {
+	background: url(../img/bullet2.png) no-repeat 10px 10px;
+}
+
+.sc-content > ul.yellow-dot li {
+	background: url(../img/bullet3.png) no-repeat 10px 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
